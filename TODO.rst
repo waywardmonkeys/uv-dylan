@@ -33,7 +33,7 @@ uv-dylan TODO
 * Make it easy to build this out of the box without dropping symlinks
   or copies of stuff here and there.
 
-* Write tests that demonstrate the usage of the ful API. Consider
+* Write tests that demonstrate the usage of the full API. Consider
   borrowing code / ideas from the ``libuv`` tests.
 
 * Get someone using this (like Koala).
