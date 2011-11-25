@@ -30,7 +30,7 @@ define C-function uv-timer-start-orig
   parameter timeout :: <C-int>; // XXX: This should be a 64 bit value
   parameter repeat :: <C-int>; // XXX: This should be a 64 bit value
   result xxx :: <C-int>;
-  c-name: "uv_timer_start";
+  c-name: "uv_dylan_timer_start";
 end;
 
 define method uv-timer-start

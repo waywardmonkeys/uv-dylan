@@ -11,3 +11,8 @@ void uv_dylan_timer_delete(uv_timer_t* timer)
   free(timer);
 }
 
+int uv_dylan_timer_start(uv_timer_t* timer, uv_timer_cb* cb, int32_t timeout, int32_t repeat)
+{
+  return uv_timer_start(timer, cb, timeout, repeat);
+}
+

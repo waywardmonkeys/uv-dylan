@@ -6,6 +6,6 @@ begin
   uv-timer-start(timer, method(#rest fs)
                             format-out("hello %=\n", fs);
                             force-output(*standard-output*);
-                        end, 100, 0);
+                        end, 100, 100);
   uv-run(loop);
 end;
