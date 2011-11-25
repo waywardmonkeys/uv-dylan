@@ -19,6 +19,10 @@ be found at link time::
 (Note that that destination directory won't exist until you've already
 attempted a build.)
 
+You will also need a hack to let the compiler find the headers for now:
+
+    ln -s `pwd`/libuv /opt/opendylan-2011.1.pre3/include
+
 You can build this library with::
 
     minimal-console-compiler -build uv-dylan.lid
