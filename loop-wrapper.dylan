@@ -26,11 +26,15 @@ end;
 
 define sealed domain make(singleton(<uv-loop>));
 
-define sealed method make(class == <uv-loop>, #rest args, #key)
+define sealed method make(class == <uv-loop>, #rest args, #key address, #all-keys)
  => (loop :: <uv-loop>)
-  let loop = uv-loop-new();
-  finalize-when-unreachable(loop);
-  loop
+  if (address)
+    next-method();
+  else
+    let loop = uv-loop-new();
+    finalize-when-unreachable(loop);
+    loop
+  end;
 end method make;
 
 define method finalize(loop :: <uv-loop>) => ()
