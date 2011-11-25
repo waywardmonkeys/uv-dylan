@@ -2,7 +2,14 @@ module: uv-wrapper
 author: Bruce Mitchener <bruce.mitchener@gmail.com>
 copyright: MIT
 
-define C-subtype <uv-handle> (<C-void*>) end;
+define C-struct <_uv-handle>
+  slot loop :: <uv-loop>; //read-only!
+  slot handle :: <C-void*>; //read-only!
+  slot close-cb :: <C-void*>; //uv_close_cb
+  slot data :: <C-dylan-object>;
+end;
+
+define C-pointer-type <uv-handle> => <_uv-handle>;
 
 define C-function uv-is-active
   parameter handle :: <uv-handle>;

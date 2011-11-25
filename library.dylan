@@ -4,6 +4,8 @@ define library uv
   use functional-dylan;
   use C-FFI;
 
+  use io; //only for testing purposes
+
   export uv-wrapper;
 end;
 
@@ -11,6 +13,10 @@ define module uv-wrapper
   use dylan;
   use c-ffi;
   use finalization;
+
+  use format-out; //only for testing purposes
+  use streams, import: { force-output }; //only for testing purposes
+  use standard-io, import: { *standard-output* }; //only for testing purposes
 
   export <uv-loop>, uv-default-loop, uv-run;
 
