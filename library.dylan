@@ -10,9 +10,9 @@ end;
 define module uv-wrapper
   use dylan;
   use c-ffi;
+  use finalization;
 
-  export <uv-loop>, uv-loop-new, uv-loop-delete,
-    uv-default-loop, uv-run;
+  export <uv-loop>, uv-default-loop, uv-run;
 
 end;
 

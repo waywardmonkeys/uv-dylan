@@ -24,3 +24,15 @@ define C-function uv-run
   c-name: "uv_run";
 end;
 
+define sealed domain make(singleton(<uv-loop>));
+
+define sealed method make(class == <uv-loop>, #rest args, #key)
+ => (loop :: <uv-loop>)
+  let loop = uv-loop-new();
+  finalize-when-unreachable(loop);
+  loop
+end method make;
+
+define method finalize(loop :: <uv-loop>) => ()
+  uv-loop-delete(loop);
+end method finalize;
