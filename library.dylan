@@ -16,6 +16,12 @@ define module uv-wrapper
 
   export <uv-handle>, uv-is-active, uv-close;
 
+  export <uv-check>, uv-check-start, uv-check-stop;
+
+  export <uv-idle>, uv-idle-start, uv-idle-stop;
+
+  export <uv-prepare>, uv-prepare-start, uv-prepare-stop;
+
   export <uv-timer>, uv-timer-start, uv-timer-stop,
     uv-timer-again;
 
