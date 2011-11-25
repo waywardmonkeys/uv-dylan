@@ -14,5 +14,7 @@ define module uv-wrapper
 
   export <uv-loop>, uv-default-loop, uv-run;
 
+  export <uv-handle>, uv-is-active, uv-close;
+
 end;
 
