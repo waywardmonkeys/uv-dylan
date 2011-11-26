@@ -2,41 +2,51 @@ module: uv-wrapper
 author: Bruce Mitchener <bruce.mitchener@gmail.com>
 copyright: MIT
 
-define C-subtype <uv-handle> (<C-void*>) end;
+define C-subtype <%uv-handle> (<C-void*>) end;
 
-define C-function uv-is-active
-  parameter handle :: <uv-handle>;
+define class <uv-handle> (<object>)
+  slot raw-handle :: <%uv-handle>;
+  slot close-callback :: <function>;
+  slot callback :: <function>;
+end;
+
+define C-function %uv-is-active
+  parameter handle :: <%uv-handle>;
   result active? :: <C-int>;
   c-name: "uv_is_active";
 end;
 
+define method uv-is-active(handle :: <uv-handle>) => (active? :: <boolean>)
+  %uv-is-active(handle.raw-handle) == 1
+end;
+
 define C-function %uv-handle-data
-  parameter handle :: <uv-handle>;
+  parameter handle :: <%uv-handle>;
   result data :: <C-dylan-object>;
   c-name: "uv_dylan_handle_data";
 end;
 
 define C-function %uv-handle-data-setter
   parameter data :: <C-dylan-object>;
-  parameter handle :: <uv-handle>;
+  parameter handle :: <%uv-handle>;
   c-name: "uv_dylan_handle_data_setter";
 end;
 
-define method uv-close-callback
-    (handle :: <uv-handle>) => ()
-  let user-data = %uv-handle-data(handle);
-  let f = import-c-dylan-object(user-data);
-  unregister-c-dylan-object(user-data);
-  f();
+define method %uv-close-callback
+    (handle :: <%uv-handle>) => ()
+  let handle-data = %uv-handle-data(handle);
+  let wrapper = import-c-dylan-object(handle-data);
+  unregister-c-dylan-object(handle-data);
+  apply(wrapper.close-callback, #())
 end;
 
-define C-callable-wrapper close-callback of uv-close-callback
-  parameter handle :: <uv-handle>;
+define C-callable-wrapper %close-callback of %uv-close-callback
+  parameter handle :: <%uv-handle>;
   c-name: "uv_close_callback";
 end;
 
 define C-function %uv-close
-  parameter handle :: <uv-handle>;
+  parameter handle :: <%uv-handle>;
   parameter callback :: <C-function-pointer>;
   c-name: "uv_close";
 end;
@@ -44,7 +54,35 @@ end;
 define method uv-close
     (handle :: <uv-handle>, callback :: <function>)
  => ()
-  register-c-dylan-object(callback);
-  %uv-handle-data(handle) := export-c-dylan-object(callback);
-  %uv-close(handle, close-callback)
+  handle.close-callback := callback;
+  %uv-handle-data(handle.raw-handle) := export-c-dylan-object(handle);
+  %uv-close(handle.raw-handle, %close-callback)
+end;
+
+define method %uv-invoke-callback
+    (raw-handle :: <%uv-handle>, #rest args) => ()
+  let handle = import-c-dylan-object(%uv-handle-data(raw-handle));
+  apply(handle.callback, args)
+end;
+
+define C-callable-wrapper %invoke-callback of %uv-invoke-callback
+  parameter raw-handle :: <%uv-handle>;
+  parameter status :: <C-int>;
+  c-name: "uv_invoke_callback";
+end;
+
+define method %uv-prepare-for-callback(handle :: <uv-handle>, callback :: <function>) => ()
+  handle.callback := callback;
+  %uv-handle-data(handle.raw-handle) := export-c-dylan-object(handle);
+end;
+
+define method initialize(handle :: <uv-handle>, #key) => ()
+  next-method();
+  register-c-dylan-object(handle);
+  finalize-when-unreachable(handle);
+end;
+
+define method finalize(handle :: <uv-handle>) => ()
+  unregister-c-dylan-object(handle);
+  next-method();
 end;

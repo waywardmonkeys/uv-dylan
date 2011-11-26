@@ -1,8 +1,6 @@
 uv-dylan TODO
 =============
 
-* Figure out how to hook a Dylan method up to the callbacks.
-
 * Decide how to handle and map errors from uv back to Dylan.
 
   * Should these signal conditions or keep the return value
