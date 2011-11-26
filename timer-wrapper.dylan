@@ -24,7 +24,7 @@ define C-callable-wrapper timer-callback of uv-timer-callback
   c-name: "uv_timer_callback";
 end;
 
-define C-function uv-timer-start-orig
+define C-function %uv-timer-start
   parameter timer :: <uv-timer>;
   parameter callback :: <C-function-pointer>;
   parameter timeout :: <C-int>; // XXX: This should be a 64 bit value
@@ -38,7 +38,7 @@ define method uv-timer-start
  => (result :: <integer>)
   register-c-dylan-object(callback);
   timer.data := export-c-dylan-object(callback);
-  uv-timer-start-orig(timer, timer-callback, timeout, repeat)
+  %uv-timer-start(timer, timer-callback, timeout, repeat)
 end;
 
 define C-function uv-timer-stop
