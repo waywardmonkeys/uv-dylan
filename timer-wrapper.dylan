@@ -12,14 +12,15 @@ define C-function uv-timer-init
 end;
 
 define method uv-timer-callback
-    (handle :: <uv-handle>, status :: <integer>) => ()
-  let f = import-c-dylan-object(handle.data);
-  unregister-c-dylan-object(handle.data);
+    (timer :: <uv-timer>, status :: <integer>) => ()
+  let user-data = %uv-handle-data(timer);
+  let f = import-c-dylan-object(user-data);
+  unregister-c-dylan-object(user-data);
   f(status);
 end;
 
 define C-callable-wrapper timer-callback of uv-timer-callback
-  parameter handle :: <uv-handle>;
+  parameter timer :: <uv-timer>;
   parameter status :: <C-int>;
   c-name: "uv_timer_callback";
 end;
@@ -37,7 +38,7 @@ define method uv-timer-start
     (timer :: <uv-timer>, callback :: <function>, timeout :: <integer>, repeat :: <integer>)
  => (result :: <integer>)
   register-c-dylan-object(callback);
-  timer.data := export-c-dylan-object(callback);
+  %uv-handle-data(timer) := export-c-dylan-object(callback);
   %uv-timer-start(timer, timer-callback, timeout, repeat)
 end;
 

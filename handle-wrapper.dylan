@@ -2,14 +2,7 @@ module: uv-wrapper
 author: Bruce Mitchener <bruce.mitchener@gmail.com>
 copyright: MIT
 
-define C-struct <_uv-handle>
-  slot loop :: <uv-loop>; //read-only!
-  slot handle :: <C-void*>; //read-only!
-  slot close-cb :: <C-void*>; //uv_close_cb
-  slot data :: <C-dylan-object>;
-end;
-
-define C-pointer-type <uv-handle> => <_uv-handle>;
+define C-subtype <uv-handle> (<C-void*>) end;
 
 define C-function uv-is-active
   parameter handle :: <uv-handle>;
@@ -17,10 +10,23 @@ define C-function uv-is-active
   c-name: "uv_is_active";
 end;
 
+define C-function %uv-handle-data
+  parameter handle :: <uv-handle>;
+  result data :: <C-dylan-object>;
+  c-name: "uv_dylan_handle_data";
+end;
+
+define C-function %uv-handle-data-setter
+  parameter data :: <C-dylan-object>;
+  parameter handle :: <uv-handle>;
+  c-name: "uv_dylan_handle_data_setter";
+end;
+
 define method uv-close-callback
     (handle :: <uv-handle>) => ()
-  let f = import-c-dylan-object(handle.data);
-  unregister-c-dylan-object(handle.data);
+  let user-data = %uv-handle-data(handle);
+  let f = import-c-dylan-object(user-data);
+  unregister-c-dylan-object(user-data);
   f();
 end;
 
@@ -39,6 +45,6 @@ define method uv-close
     (handle :: <uv-handle>, callback :: <function>)
  => ()
   register-c-dylan-object(callback);
-  handle.data := export-c-dylan-object(callback);
+  %uv-handle-data(handle) := export-c-dylan-object(callback);
   %uv-close(handle, close-callback)
 end;

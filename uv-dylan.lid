@@ -10,6 +10,7 @@ Files:          library
                 timer-wrapper
                 main
 C-source-files: check-support.c
+                handle-support.c
                 idle-support.c
                 prepare-support.c
                 timer-support.c
