@@ -7,6 +7,8 @@ Files:          library
                 check-wrapper
                 idle-wrapper
                 prepare-wrapper
+                stream-wrapper
+                tcp-wrapper
                 timer-wrapper
                 main
 C-source-files: check-support.c
@@ -14,5 +16,6 @@ C-source-files: check-support.c
                 idle-support.c
                 loop-support.c
                 prepare-support.c
+                tcp-support.c
                 timer-support.c
 C-libraries:    uv.a

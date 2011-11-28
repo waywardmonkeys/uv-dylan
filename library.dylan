@@ -31,6 +31,10 @@ define module uv-wrapper
 
   export <uv-prepare>, uv-prepare-start, uv-prepare-stop;
 
+  export <uv-stream>, uv-read-start, uv-read-stop;
+
+  export <uv-tcp>, uv-listen, uv-accept, uv-tcp-bind;
+
   export <uv-timer>, uv-timer-start, uv-timer-stop,
     uv-timer-again;
 
