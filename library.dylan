@@ -11,6 +11,7 @@ end;
 
 define module uv-wrapper
   use dylan;
+  use dylan-extensions;
   use c-ffi;
   use finalization;
 
@@ -18,7 +19,9 @@ define module uv-wrapper
   use streams, import: { force-output }; //only for testing purposes
   use standard-io, import: { *standard-output* }; //only for testing purposes
 
-  export <uv-loop>, uv-default-loop, uv-run;
+  export <uv-loop>, uv-default-loop, uv-run,
+    uv-ref, uv-unref,
+    uv-update-time, uv-now;
 
   export <uv-handle>, uv-is-active, uv-close;
 

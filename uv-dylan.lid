@@ -12,6 +12,7 @@ Files:          library
 C-source-files: check-support.c
                 handle-support.c
                 idle-support.c
+                loop-support.c
                 prepare-support.c
                 timer-support.c
 C-libraries:    uv.a

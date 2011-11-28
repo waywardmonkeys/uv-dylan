@@ -7,5 +7,5 @@ begin
                             format-out("hello %=\n", fs);
                             force-output(*standard-output*);
                         end, 100, 100);
-  uv-run(loop);
+  uv-run(loop: loop);
 end;

@@ -19,10 +19,45 @@ define C-function uv-default-loop
   c-name: "uv_default_loop";
 end;
 
-define C-function uv-run
+define C-function %uv-run
   parameter loop :: <uv-loop>;
   c-name: "uv_run";
 end;
+
+define method uv-run(#key loop :: <uv-loop> = uv-default-loop()) => ()
+  %uv-run(loop);
+end method;
+
+define C-function uv-ref
+  parameter loop :: <uv-loop>;
+  c-name: "uv_ref";
+end;
+
+define C-function uv-unref
+  parameter loop :: <uv-loop>;
+  c-name: "uv_unref";
+end;
+
+define C-function %uv-update-time
+  parameter loop :: <uv-loop>;
+  c-name: "uv_update_time";
+end;
+
+define method uv-update-time(#key loop :: <uv-loop> = uv-default-loop()) => ()
+  %uv-update-time(loop);
+end method;
+
+define C-function %uv-now
+  parameter loop :: <uv-loop>;
+  output parameter low :: <C-unsigned-int*>;
+  output parameter high :: <C-unsigned-int*>;
+  c-name: "uv_dylan_now";
+end;
+
+define method uv-now(#key loop :: <uv-loop> = uv-default-loop()) => (_ :: <double-integer>)
+  let (low, high) = %uv-now(loop);
+  make(<double-integer>, low: as(<machine-word>, low), high: as(<machine-word>, high))
+end method;
 
 define sealed domain make(singleton(<uv-loop>));
 
