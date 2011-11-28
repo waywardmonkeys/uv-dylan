@@ -28,7 +28,7 @@ end;
 define method uv-check-start
     (check :: <uv-check>, callback :: <function>)
  => (result :: <integer>)
-  %uv-prepare-for-callback(check, callback);
+  check.callback := callback;
   %uv-check-start(check.raw-handle, %invoke-callback)
 end;
 
@@ -50,8 +50,8 @@ define sealed domain make(singleton(<uv-check>));
 define sealed domain initialize(singleton(<uv-check>));
 
 define sealed method initialize(check :: <uv-check>, #key loop = uv-default-loop())
-  next-method();
   check.raw-handle := %uv-dylan-check-new();
+  next-method();
   %uv-check-init(loop, check.raw-handle);
 end;
 

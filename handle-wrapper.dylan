@@ -55,7 +55,6 @@ define method uv-close
     (handle :: <uv-handle>, callback :: <function>)
  => ()
   handle.close-callback := callback;
-  %uv-handle-data(handle.raw-handle) := export-c-dylan-object(handle);
   %uv-close(handle.raw-handle, %close-callback)
 end;
 
@@ -71,14 +70,10 @@ define C-callable-wrapper %invoke-callback of %uv-invoke-callback
   c-name: "uv_invoke_callback";
 end;
 
-define method %uv-prepare-for-callback(handle :: <uv-handle>, callback :: <function>) => ()
-  handle.callback := callback;
-  %uv-handle-data(handle.raw-handle) := export-c-dylan-object(handle);
-end;
-
 define method initialize(handle :: <uv-handle>, #key) => ()
   next-method();
   register-c-dylan-object(handle);
+  %uv-handle-data(handle.raw-handle) := export-c-dylan-object(handle);
   finalize-when-unreachable(handle);
 end;
 

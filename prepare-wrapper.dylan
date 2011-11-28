@@ -28,7 +28,7 @@ end;
 define method uv-prepare-start
     (prepare :: <uv-prepare>, callback :: <function>)
  => (result :: <integer>)
-  %uv-prepare-for-callback(prepare, callback);
+  prepare.callback := callback;
   %uv-prepare-start(prepare.raw-handle, %invoke-callback)
 end;
 
@@ -50,8 +50,8 @@ define sealed domain make(singleton(<uv-prepare>));
 define sealed domain initialize(singleton(<uv-prepare>));
 
 define sealed method initialize(prepare :: <uv-prepare>, #key loop = uv-default-loop())
-  next-method();
   prepare.raw-handle := %uv-dylan-prepare-new();
+  next-method();
   %uv-prepare-init(loop, prepare.raw-handle);
 end;
 

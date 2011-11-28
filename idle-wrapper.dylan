@@ -28,7 +28,7 @@ end;
 define method uv-idle-start
     (idle :: <uv-idle>, callback :: <function>)
  => (result :: <integer>)
-  %uv-prepare-for-callback(idle, callback);
+  idle.callback := callback;
   %uv-idle-start(idle.raw-handle, %invoke-callback)
 end;
 
@@ -50,8 +50,8 @@ define sealed domain make(singleton(<uv-idle>));
 define sealed domain initialize(singleton(<uv-idle>));
 
 define sealed method initialize(idle :: <uv-idle>, #key loop = uv-default-loop())
-  next-method();
   idle.raw-handle := %uv-dylan-idle-new();
+  next-method();
   %uv-idle-init(loop, idle.raw-handle);
 end;
 

@@ -25,7 +25,7 @@ end;
 define method uv-timer-start
     (timer :: <uv-timer>, callback :: <function>, timeout :: <integer>, repeat :: <integer>)
  => (result :: <integer>)
-  %uv-prepare-for-callback(timer, callback);
+  timer.callback := callback;
   %uv-timer-start(timer.raw-handle, %invoke-callback, timeout, repeat)
 end;
 
@@ -65,8 +65,8 @@ define sealed domain make(singleton(<uv-timer>));
 define sealed domain initialize(singleton(<uv-timer>));
 
 define sealed method initialize(timer :: <uv-timer>, #key loop = uv-default-loop())
-  next-method();
   timer.raw-handle := %uv-dylan-timer-new();
+  next-method();
   %uv-timer-init(loop, timer.raw-handle);
 end;
 
