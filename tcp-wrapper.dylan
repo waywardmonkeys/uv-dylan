@@ -65,11 +65,6 @@ define C-function %uv-dylan-tcp-new
   c-name: "uv_dylan_tcp_new";
 end;
 
-define C-function %uv-dylan-tcp-delete
-  parameter tcp-stream :: <%uv-tcp>;
-  c-name: "uv_dylan_tcp_delete";
-end;
-
 define sealed domain make(singleton(<uv-tcp>));
 define sealed domain initialize(singleton(<uv-tcp>));
 
@@ -78,9 +73,3 @@ define sealed method initialize(tcp-stream :: <uv-tcp>, #key loop = uv-default-l
   next-method();
   %uv-tcp-init(loop, tcp-stream.raw-handle);
 end;
-
-define method finalize(tcp-stream :: <uv-tcp>) => ()
-  %uv-close(tcp-stream.raw-handle);
-  %uv-dylan-tcp-delete(tcp-stream.raw-handle);
-  next-method();
-end method finalize;

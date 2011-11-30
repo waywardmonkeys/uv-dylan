@@ -41,11 +41,6 @@ define C-function %uv-dylan-check-new
   c-name: "uv_dylan_check_new";
 end;
 
-define C-function %uv-dylan-check-delete
-  parameter check :: <%uv-check>;
-  c-name: "uv_dylan_check_delete";
-end;
-
 define sealed domain make(singleton(<uv-check>));
 define sealed domain initialize(singleton(<uv-check>));
 
@@ -54,9 +49,3 @@ define sealed method initialize(check :: <uv-check>, #key loop = uv-default-loop
   next-method();
   %uv-check-init(loop, check.raw-handle);
 end;
-
-define method finalize(check :: <uv-check>) => ()
-  %uv-check-stop(check.raw-handle);
-  %uv-dylan-check-delete(check.raw-handle);
-  next-method();
-end method finalize;

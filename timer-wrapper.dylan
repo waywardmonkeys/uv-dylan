@@ -56,11 +56,6 @@ define C-function %uv-dylan-timer-new
   c-name: "uv_dylan_timer_new";
 end;
 
-define C-function %uv-dylan-timer-delete
-  parameter timer :: <%uv-timer>;
-  c-name: "uv_dylan_timer_delete";
-end;
-
 define sealed domain make(singleton(<uv-timer>));
 define sealed domain initialize(singleton(<uv-timer>));
 
@@ -69,9 +64,3 @@ define sealed method initialize(timer :: <uv-timer>, #key loop = uv-default-loop
   next-method();
   %uv-timer-init(loop, timer.raw-handle);
 end;
-
-define method finalize(timer :: <uv-timer>) => ()
-  %uv-timer-stop(timer.raw-handle);
-  %uv-dylan-timer-delete(timer.raw-handle);
-  next-method();
-end method finalize;

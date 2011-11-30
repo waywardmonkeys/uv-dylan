@@ -41,11 +41,6 @@ define C-function %uv-dylan-prepare-new
   c-name: "uv_dylan_prepare_new";
 end;
 
-define C-function %uv-dylan-prepare-delete
-  parameter prepare :: <%uv-prepare>;
-  c-name: "uv_dylan_prepare_delete";
-end;
-
 define sealed domain make(singleton(<uv-prepare>));
 define sealed domain initialize(singleton(<uv-prepare>));
 
@@ -54,9 +49,3 @@ define sealed method initialize(prepare :: <uv-prepare>, #key loop = uv-default-
   next-method();
   %uv-prepare-init(loop, prepare.raw-handle);
 end;
-
-define method finalize(prepare :: <uv-prepare>) => ()
-  %uv-prepare-stop(prepare.raw-handle);
-  %uv-dylan-prepare-delete(prepare.raw-handle);
-  next-method();
-end method finalize;

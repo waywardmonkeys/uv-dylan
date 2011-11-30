@@ -41,11 +41,6 @@ define C-function %uv-dylan-idle-new
   c-name: "uv_dylan_idle_new";
 end;
 
-define C-function %uv-dylan-idle-delete
-  parameter idle :: <%uv-idle>;
-  c-name: "uv_dylan_idle_delete";
-end;
-
 define sealed domain make(singleton(<uv-idle>));
 define sealed domain initialize(singleton(<uv-idle>));
 
@@ -54,9 +49,3 @@ define sealed method initialize(idle :: <uv-idle>, #key loop = uv-default-loop()
   next-method();
   %uv-idle-init(loop, idle.raw-handle);
 end;
-
-define method finalize(idle :: <uv-idle>) => ()
-  %uv-idle-stop(idle.raw-handle);
-  %uv-dylan-idle-delete(idle.raw-handle);
-  next-method();
-end method finalize;

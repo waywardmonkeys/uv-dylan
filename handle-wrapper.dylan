@@ -10,6 +10,11 @@ define class <uv-handle> (<object>)
   slot callback :: <function>;
 end;
 
+define C-function %uv-dylan-handle-delete
+  parameter handle :: <%uv-handle>;
+  c-name: "uv_dylan_handle_delete";
+end;
+
 define C-function %uv-is-active
   parameter handle :: <%uv-handle>;
   result active? :: <C-int>;
@@ -55,7 +60,7 @@ define method uv-close
     (handle :: <uv-handle>, callback :: <function>)
  => ()
   handle.close-callback := callback;
-  %uv-close(handle.raw-handle, %close-callback)
+  %uv-close(handle.raw-handle, %close-callback);
 end;
 
 define method %uv-invoke-callback
@@ -77,7 +82,18 @@ define method initialize(handle :: <uv-handle>, #key) => ()
   finalize-when-unreachable(handle);
 end;
 
+define method %uv-close-finalize-callback
+    (handle :: <%uv-handle>) => ()
+  %uv-dylan-handle-delete(handle);
+end;
+
+define C-callable-wrapper %close-finalize-callback of %uv-close-finalize-callback
+  parameter handle :: <%uv-handle>;
+  c-name: "uv_close_finalize_callback";
+end;
+
 define method finalize(handle :: <uv-handle>) => ()
   unregister-c-dylan-object(handle);
+  %uv-close(handle.raw-handle, %close-finalize-callback);
   next-method();
 end;
