@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include <libuv/include/uv.h>
+#include "libuv/include/uv.h"
 
 uv_tcp_t* uv_dylan_tcp_new(void)
 {

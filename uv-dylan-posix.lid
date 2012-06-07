@@ -18,4 +18,5 @@ C-source-files: check-support.c
                 prepare-support.c
                 tcp-support.c
                 timer-support.c
+C-header-files: libuv/uv.a
 C-libraries:    uv.a

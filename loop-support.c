@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include <libuv/include/uv.h>
+#include "libuv/include/uv.h"
 
 void uv_dylan_now(uv_loop_t* loop, unsigned int* low, unsigned int* high)
 {

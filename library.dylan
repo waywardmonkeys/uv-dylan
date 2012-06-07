@@ -1,7 +1,8 @@
 module: dylan-user
 
 define library uv
-  use functional-dylan;
+  use dylan;
+  use common-dylan;
   use C-FFI;
 
   use io; //only for testing purposes
