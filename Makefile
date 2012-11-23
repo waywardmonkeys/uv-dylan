@@ -6,6 +6,9 @@ UNAME := $(shell uname)
 ifeq ($(UNAME), Darwin)
   CFLAGS="-arch i386 -arch x86_64"
 endif
+ifeq ($(UNAME), Linux)
+  CFLAGS="-fPIC"
+endif
 
 libuv/libuv.a:
 	$(MAKE) -C libuv CFLAGS=$(CFLAGS)
