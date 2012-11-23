@@ -23,8 +23,8 @@ clean-uv:
 	$(MAKE) -C libuv clean
 
 clean-uv-dylan:
-	rm -r _build/build/uv-dylan
-	rm -r _build/lib/*uv-dylan*
-	rm -r _build/bin/uv*
+	rm -rf _build/build/uv-dylan
+	rm -rf _build/lib/*uv-dylan*
+	rm -rf _build/bin/uv*
 
 clean: clean-uv clean-uv-dylan
