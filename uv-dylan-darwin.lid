@@ -1,4 +1,4 @@
 library:        uv-dylan
 LID:            uv-dylan-posix.lid
-C-libraries:    uv.a
+C-libraries:    libuv.a
                 -framework CoreServices
