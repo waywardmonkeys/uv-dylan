@@ -1,4 +1,3 @@
 library:        uv-dylan
 LID:            uv-dylan-posix.lid
-C-libraries:    libuv.a
-                -lrt
+C-libraries:    -lrt
