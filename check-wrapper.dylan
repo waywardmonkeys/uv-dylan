@@ -32,7 +32,7 @@ define method uv-check-start
   %uv-check-start(check.raw-handle, %invoke-callback)
 end;
 
-define method uv-check-stop(check :: <uv-check>) => (_)
+define method uv-check-stop (check :: <uv-check>) => (_)
   %uv-check-stop(check.raw-handle)
 end;
 
@@ -41,10 +41,10 @@ define C-function %uv-dylan-check-new
   c-name: "uv_dylan_check_new";
 end;
 
-define sealed domain make(singleton(<uv-check>));
-define sealed domain initialize(singleton(<uv-check>));
+define sealed domain make (singleton(<uv-check>));
+define sealed domain initialize (singleton(<uv-check>));
 
-define sealed method initialize(check :: <uv-check>, #key loop = uv-default-loop())
+define sealed method initialize (check :: <uv-check>, #key loop = uv-default-loop())
   check.raw-handle := %uv-dylan-check-new();
   next-method();
   %uv-check-init(loop, check.raw-handle);

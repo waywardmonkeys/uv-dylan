@@ -21,7 +21,7 @@ define C-function %uv-tcp-bind
   c-name: "uv_dylan_tcp_bind";
 end;
 
-define method uv-tcp-bind(tcp-stream :: <uv-tcp>, bind-ip :: <string>, bind-port :: <integer>) => ()
+define method uv-tcp-bind (tcp-stream :: <uv-tcp>, bind-ip :: <string>, bind-port :: <integer>) => ()
   %uv-tcp-bind(tcp-stream.raw-handle, bind-ip, bind-port);
 end method;
 
@@ -45,7 +45,7 @@ define C-callable-wrapper %invoke-connection-callback of %uv-invoke-connection-c
   c-name: "uv_invoke_connection_callback";
 end;
 
-define method uv-listen(server :: <uv-tcp>, backlog :: <integer>, connection-cb :: <function>) => ()
+define method uv-listen (server :: <uv-tcp>, backlog :: <integer>, connection-cb :: <function>) => ()
   server.connection-callback := connection-cb;
   %uv-listen(server.raw-handle, backlog, %invoke-connection-callback);
 end method;
@@ -56,7 +56,7 @@ define C-function %uv-accept
   c-name: "uv_accept";
 end;
 
-define method uv-accept(server :: <uv-stream>, client :: <uv-stream>) => ()
+define method uv-accept (server :: <uv-stream>, client :: <uv-stream>) => ()
   %uv-accept(server.raw-handle, client.raw-handle);
 end method;
 
@@ -65,10 +65,10 @@ define C-function %uv-dylan-tcp-new
   c-name: "uv_dylan_tcp_new";
 end;
 
-define sealed domain make(singleton(<uv-tcp>));
-define sealed domain initialize(singleton(<uv-tcp>));
+define sealed domain make (singleton(<uv-tcp>));
+define sealed domain initialize (singleton(<uv-tcp>));
 
-define sealed method initialize(tcp-stream :: <uv-tcp>, #key loop = uv-default-loop())
+define sealed method initialize (tcp-stream :: <uv-tcp>, #key loop = uv-default-loop())
   tcp-stream.raw-handle := %uv-dylan-tcp-new();
   next-method();
   %uv-tcp-init(loop, tcp-stream.raw-handle);

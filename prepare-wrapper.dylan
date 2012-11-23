@@ -32,7 +32,7 @@ define method uv-prepare-start
   %uv-prepare-start(prepare.raw-handle, %invoke-callback)
 end;
 
-define method uv-prepare-stop(prepare :: <uv-prepare>) => (_)
+define method uv-prepare-stop (prepare :: <uv-prepare>) => (_)
   %uv-prepare-stop(prepare.raw-handle)
 end;
 
@@ -41,10 +41,10 @@ define C-function %uv-dylan-prepare-new
   c-name: "uv_dylan_prepare_new";
 end;
 
-define sealed domain make(singleton(<uv-prepare>));
-define sealed domain initialize(singleton(<uv-prepare>));
+define sealed domain make (singleton(<uv-prepare>));
+define sealed domain initialize (singleton(<uv-prepare>));
 
-define sealed method initialize(prepare :: <uv-prepare>, #key loop = uv-default-loop())
+define sealed method initialize (prepare :: <uv-prepare>, #key loop = uv-default-loop())
   prepare.raw-handle := %uv-dylan-prepare-new();
   next-method();
   %uv-prepare-init(loop, prepare.raw-handle);

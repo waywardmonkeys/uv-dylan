@@ -35,7 +35,7 @@ define C-function %uv-timer-stop
   c-name: "uv_timer_stop";
 end;
 
-define method uv-timer-stop(timer :: <uv-timer>) => (_)
+define method uv-timer-stop (timer :: <uv-timer>) => (_)
   %uv-timer-stop(timer.raw-handle)
 end;
 
@@ -45,7 +45,7 @@ define C-function %uv-timer-again
   c-name: "uv_timer_again";
 end;
 
-define method uv-timer-again(timer :: <uv-timer>) => (_)
+define method uv-timer-again (timer :: <uv-timer>) => (_)
   %uv-timer-again(timer.raw-handle)
 end;
 
@@ -56,10 +56,10 @@ define C-function %uv-dylan-timer-new
   c-name: "uv_dylan_timer_new";
 end;
 
-define sealed domain make(singleton(<uv-timer>));
-define sealed domain initialize(singleton(<uv-timer>));
+define sealed domain make (singleton(<uv-timer>));
+define sealed domain initialize (singleton(<uv-timer>));
 
-define sealed method initialize(timer :: <uv-timer>, #key loop = uv-default-loop())
+define sealed method initialize (timer :: <uv-timer>, #key loop = uv-default-loop())
   timer.raw-handle := %uv-dylan-timer-new();
   next-method();
   %uv-timer-init(loop, timer.raw-handle);

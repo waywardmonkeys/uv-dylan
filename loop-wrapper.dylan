@@ -24,7 +24,7 @@ define C-function %uv-run
   c-name: "uv_run";
 end;
 
-define method uv-run(#key loop :: <uv-loop> = uv-default-loop()) => ()
+define method uv-run (#key loop :: <uv-loop> = uv-default-loop()) => ()
   %uv-run(loop);
 end method;
 
@@ -43,7 +43,7 @@ define C-function %uv-update-time
   c-name: "uv_update_time";
 end;
 
-define method uv-update-time(#key loop :: <uv-loop> = uv-default-loop()) => ()
+define method uv-update-time (#key loop :: <uv-loop> = uv-default-loop()) => ()
   %uv-update-time(loop);
 end method;
 
@@ -54,14 +54,14 @@ define C-function %uv-now
   c-name: "uv_dylan_now";
 end;
 
-define method uv-now(#key loop :: <uv-loop> = uv-default-loop()) => (_ :: <double-integer>)
+define method uv-now (#key loop :: <uv-loop> = uv-default-loop()) => (_ :: <double-integer>)
   let (low, high) = %uv-now(loop);
   make(<double-integer>, low: as(<machine-word>, low), high: as(<machine-word>, high))
 end method;
 
-define sealed domain make(singleton(<uv-loop>));
+define sealed domain make (singleton(<uv-loop>));
 
-define sealed method make(class == <uv-loop>, #rest args, #key address, #all-keys)
+define sealed method make (class == <uv-loop>, #rest args, #key address, #all-keys)
  => (loop :: <uv-loop>)
   if (address)
     next-method();
@@ -72,6 +72,6 @@ define sealed method make(class == <uv-loop>, #rest args, #key address, #all-key
   end;
 end method make;
 
-define method finalize(loop :: <uv-loop>) => ()
+define method finalize (loop :: <uv-loop>) => ()
   uv-loop-delete(loop);
 end method finalize;

@@ -32,7 +32,7 @@ define method uv-idle-start
   %uv-idle-start(idle.raw-handle, %invoke-callback)
 end;
 
-define method uv-idle-stop(idle :: <uv-idle>) => (_)
+define method uv-idle-stop (idle :: <uv-idle>) => (_)
   %uv-idle-stop(idle.raw-handle)
 end;
 
@@ -41,10 +41,10 @@ define C-function %uv-dylan-idle-new
   c-name: "uv_dylan_idle_new";
 end;
 
-define sealed domain make(singleton(<uv-idle>));
-define sealed domain initialize(singleton(<uv-idle>));
+define sealed domain make (singleton(<uv-idle>));
+define sealed domain initialize (singleton(<uv-idle>));
 
-define sealed method initialize(idle :: <uv-idle>, #key loop = uv-default-loop())
+define sealed method initialize (idle :: <uv-idle>, #key loop = uv-default-loop())
   idle.raw-handle := %uv-dylan-idle-new();
   next-method();
   %uv-idle-init(loop, idle.raw-handle);

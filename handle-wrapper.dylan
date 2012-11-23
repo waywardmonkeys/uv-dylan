@@ -21,7 +21,7 @@ define C-function %uv-is-active
   c-name: "uv_is_active";
 end;
 
-define method uv-is-active(handle :: <uv-handle>) => (active? :: <boolean>)
+define method uv-is-active (handle :: <uv-handle>) => (active? :: <boolean>)
   %uv-is-active(handle.raw-handle) == 1
 end;
 
@@ -75,7 +75,7 @@ define C-callable-wrapper %invoke-callback of %uv-invoke-callback
   c-name: "uv_invoke_callback";
 end;
 
-define method initialize(handle :: <uv-handle>, #key) => ()
+define method initialize (handle :: <uv-handle>, #key) => ()
   next-method();
   register-c-dylan-object(handle);
   %uv-handle-data(handle.raw-handle) := export-c-dylan-object(handle);
@@ -92,7 +92,7 @@ define C-callable-wrapper %close-finalize-callback of %uv-close-finalize-callbac
   c-name: "uv_close_finalize_callback";
 end;
 
-define method finalize(handle :: <uv-handle>) => ()
+define method finalize (handle :: <uv-handle>) => ()
   unregister-c-dylan-object(handle);
   %uv-close(handle.raw-handle, %close-finalize-callback);
   next-method();

@@ -42,7 +42,7 @@ define C-callable-wrapper %invoke-read-callback of %uv-invoke-read-callback
   c-name: "uv_invoke_read_callback";
 end;
 
-define method uv-read-start(stream :: <uv-stream>, alloc-cb :: <function>, read-cb :: <function>) => (_ :: <integer>)
+define method uv-read-start (stream :: <uv-stream>, alloc-cb :: <function>, read-cb :: <function>) => (_ :: <integer>)
   stream.alloc-callback := alloc-cb;
   stream.read-callback := read-cb;
   %uv-read-start(stream.raw-handle, %invoke-alloc-callback, %invoke-read-callback)
@@ -53,6 +53,6 @@ define C-function %uv-read-stop
   c-name: "uv_read_stop";
 end;
 
-define method uv-read-stop(stream :: <uv-stream>) => ()
+define method uv-read-stop (stream :: <uv-stream>) => ()
   %uv-read-stop(stream.raw-handle);
 end method;
