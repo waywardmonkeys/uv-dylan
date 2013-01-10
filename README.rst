@@ -6,8 +6,7 @@ This is the start of a Dylan binding for `libuv <https://github.com/joyent/libuv
 Make sure that you've done a recursive clone or that you init and update
 git submodules.  If you don't have the libuv directory, you need to fix this.
 
-This requires either a current build of Open Dylan from the master branch
-or the forthcoming release of Open Dylan 2012.1.
+This requires OpenDylan 2012.1 or later.
 
 You can build this library with the ``Makefile`` which handles some necessary
 configuration::
