@@ -2,12 +2,12 @@ module: dylan-user
 author: Bruce Mitchener, Jr.
 copyright: See LICENSE file in this distribution.
 
-define library uv-dylan-test-suite-app
+define library uv-test-suite-app
   use testworks;
-  use uv-dylan-test-suite;
+  use uv-test-suite;
 end library;
 
-define module uv-dylan-test-suite-app
+define module uv-test-suite-app
   use testworks;
-  use uv-dylan-test-suite;
+  use uv-test-suite;
 end module;

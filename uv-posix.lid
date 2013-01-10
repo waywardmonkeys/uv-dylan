@@ -1,5 +1,6 @@
-library:        uv-dylan
+library:        uv
 target-type:    dll
+executable:     uv-dylan
 Files:          library
                 loop-wrapper
                 handle-wrapper
