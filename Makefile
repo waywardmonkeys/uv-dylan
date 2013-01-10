@@ -20,7 +20,7 @@ build: libuv/libuv.a $(wildcard *.dylan)
 
 test: libuv/libuv.a $(wildcard *.dylan tests/*.dylan)
 	dylan-compiler -build uv-dylan-test-suite-app
-	./_build/bin/uv-dylan-test-suite
+	./_build/bin/uv-dylan-test-suite-app
 
 clean-uv:
 	$(MAKE) -C libuv clean

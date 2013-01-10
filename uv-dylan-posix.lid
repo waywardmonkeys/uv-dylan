@@ -1,5 +1,5 @@
 library:        uv-dylan
-target-type:    executable
+target-type:    dll
 Files:          library
                 loop-wrapper
                 handle-wrapper
@@ -10,7 +10,6 @@ Files:          library
                 stream-wrapper
                 tcp-wrapper
                 timer-wrapper
-                main
 C-source-files: check-support.c
                 handle-support.c
                 idle-support.c
