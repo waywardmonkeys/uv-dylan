@@ -1,10 +1,13 @@
-Welcome to uv-dylan's documentation!
-====================================
+uv-dylan
+========
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
+
+   usage
+   internals
 
 Indices and tables
 ==================
