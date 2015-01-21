@@ -6,14 +6,14 @@ define C-subtype <%uv-timer> (<%uv-handle>) end;
 
 define class <uv-timer> (<uv-handle>) end;
 
-define C-function %uv-timer-init
+define inline C-function %uv-timer-init
   parameter loop :: <uv-loop>;
   parameter timer :: <%uv-timer>;
   result xxx :: <C-int>;
   c-name: "uv_timer_init";
 end;
 
-define C-function %uv-timer-start
+define inline C-function %uv-timer-start
   parameter timer :: <%uv-timer>;
   parameter callback :: <C-function-pointer>;
   parameter timeout :: <C-int>; // XXX: This should be a 64 bit value
@@ -22,36 +22,36 @@ define C-function %uv-timer-start
   c-name: "uv_dylan_timer_start";
 end;
 
-define method uv-timer-start
+define inline function uv-timer-start
     (timer :: <uv-timer>, callback :: <function>, timeout :: <integer>, repeat :: <integer>)
  => (result :: <integer>)
   timer.callback := callback;
   %uv-timer-start(timer.raw-handle, %invoke-callback, timeout, repeat)
 end;
 
-define C-function %uv-timer-stop
+define inline C-function %uv-timer-stop
   parameter timer :: <%uv-timer>;
   result xxx :: <C-int>;
   c-name: "uv_timer_stop";
 end;
 
-define method uv-timer-stop (timer :: <uv-timer>) => (_)
+define inline function uv-timer-stop (timer :: <uv-timer>) => (_)
   %uv-timer-stop(timer.raw-handle)
 end;
 
-define C-function %uv-timer-again
+define inline C-function %uv-timer-again
   parameter timer :: <%uv-timer>;
   result xxx :: <C-int>;
   c-name: "uv_timer_again";
 end;
 
-define method uv-timer-again (timer :: <uv-timer>) => (_)
+define inline function uv-timer-again (timer :: <uv-timer>) => (_)
   %uv-timer-again(timer.raw-handle)
 end;
 
 // XXX: hook up something for uv_timer_set_repeat and uv_timer_get_repeat
 
-define C-function %uv-dylan-timer-new
+define inline C-function %uv-dylan-timer-new
   result timer :: <%uv-timer>;
   c-name: "uv_dylan_timer_new";
 end;

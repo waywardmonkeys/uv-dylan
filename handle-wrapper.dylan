@@ -10,34 +10,34 @@ define class <uv-handle> (<object>)
   slot callback :: <function>;
 end;
 
-define C-function %uv-dylan-handle-delete
+define inline C-function %uv-dylan-handle-delete
   parameter handle :: <%uv-handle>;
   c-name: "uv_dylan_handle_delete";
 end;
 
-define C-function %uv-is-active
+define inline C-function %uv-is-active
   parameter handle :: <%uv-handle>;
   result active? :: <C-int>;
   c-name: "uv_is_active";
 end;
 
-define method uv-is-active (handle :: <uv-handle>) => (active? :: <boolean>)
+define inline function uv-is-active (handle :: <uv-handle>) => (active? :: <boolean>)
   %uv-is-active(handle.raw-handle) == 1
 end;
 
-define C-function %uv-handle-data
+define inline C-function %uv-handle-data
   parameter handle :: <%uv-handle>;
   result data :: <C-dylan-object>;
   c-name: "uv_dylan_handle_data";
 end;
 
-define C-function %uv-handle-data-setter
+define inline C-function %uv-handle-data-setter
   parameter data :: <C-dylan-object>;
   parameter handle :: <%uv-handle>;
   c-name: "uv_dylan_handle_data_setter";
 end;
 
-define method %uv-close-callback
+define inline function %uv-close-callback
     (handle :: <%uv-handle>) => ()
   let handle-data = %uv-handle-data(handle);
   let wrapper = import-c-dylan-object(handle-data);
@@ -50,20 +50,20 @@ define C-callable-wrapper %close-callback of %uv-close-callback
   c-name: "uv_close_callback";
 end;
 
-define C-function %uv-close
+define inline C-function %uv-close
   parameter handle :: <%uv-handle>;
   parameter callback :: <C-function-pointer>;
   c-name: "uv_close";
 end;
 
-define method uv-close
+define inline function uv-close
     (handle :: <uv-handle>, callback :: <function>)
  => ()
   handle.close-callback := callback;
   %uv-close(handle.raw-handle, %close-callback);
 end;
 
-define method %uv-invoke-callback
+define inline function %uv-invoke-callback
     (raw-handle :: <%uv-handle>, #rest args) => ()
   let handle = import-c-dylan-object(%uv-handle-data(raw-handle));
   apply(handle.callback, args)
@@ -82,7 +82,7 @@ define method initialize (handle :: <uv-handle>, #key) => ()
   finalize-when-unreachable(handle);
 end;
 
-define method %uv-close-finalize-callback
+define inline function %uv-close-finalize-callback
     (handle :: <%uv-handle>) => ()
   %uv-dylan-handle-delete(handle);
 end;
