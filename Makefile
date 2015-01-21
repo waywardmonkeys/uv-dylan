@@ -6,7 +6,7 @@ build: $(wildcard *.dylan *.c *.lid)
 	# Force a rebuild to work around dylan-compiler
 	# not picking up changes to C files.
 	touch library.dylan
-	dylan-compiler -build uv -verbose
+	dylan-compiler -build uv
 
 test: $(wildcard *.dylan tests/*.dylan)
 	dylan-compiler -build uv-test-suite-app
