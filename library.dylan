@@ -7,10 +7,10 @@ define library uv
 
   use io; //only for testing purposes
 
-  export uv-wrapper;
+  export uv;
 end;
 
-define module uv-wrapper
+define module uv
   use dylan;
   use dylan-extensions;
   use c-ffi;
@@ -20,7 +20,10 @@ define module uv-wrapper
   use streams, import: { force-output }; //only for testing purposes
   use standard-io, import: { *standard-output* }; //only for testing purposes
 
-  export <uv-loop>, uv-default-loop, uv-run,
+  export uv-run, uv-stop,
+    $UV-RUN-DEFAULT, $UV-RUN-ONCE, $UV-RUN-NOWAIT;
+
+  export <uv-loop>, uv-default-loop,
     uv-ref, uv-unref,
     uv-update-time, uv-now;
 

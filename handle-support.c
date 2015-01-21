@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "libuv/include/uv.h"
+#include "uv.h"
 
 void uv_dylan_handle_delete(uv_handle_t* handle)
 {

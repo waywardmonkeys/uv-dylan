@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "libuv/include/uv.h"
+#include "uv.h"
 
 uv_timer_t* uv_dylan_timer_new(void)
 {
